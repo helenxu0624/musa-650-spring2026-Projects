@@ -1,0 +1,11 @@
+# macOS system file
+.DS_Store
+
+# ZIP files
+*.zip
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Any other directories or files you want to ignore
+eurosat_MS_0403_throuhgh_3.2/
