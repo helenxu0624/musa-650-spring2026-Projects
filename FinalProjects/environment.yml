@@ -1,0 +1,31 @@
+name: musa650-final
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - ipywidgets
+  - numpy
+  - pandas
+  - pyarrow
+  - scipy
+  - matplotlib
+  - pillow
+  - folium
+  - mapclassify
+  - contextily
+  - geopandas
+  - shapely
+  - rasterio
+  - rioxarray
+  - xarray
+  - dask
+  - distributed
+  - odc-stac
+  - odc-geo
+  - pystac-client
+  - earthengine-api
+  - scikit-image
+  - scikit-learn

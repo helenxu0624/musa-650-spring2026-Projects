@@ -1,0 +1,10 @@
+.venv/
+.env
+.ipython/
+.cache/
+.jupyter/
+__pycache__/
+.ipynb_checkpoints/
+
+data/*
+!data/.gitkeep
