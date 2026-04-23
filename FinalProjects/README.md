@@ -168,3 +168,4 @@ For more detail, see `LOCAL_ENVIRONMENT.md`.
 - AWS unsigned reads are enabled with `AWS_NO_SIGN_REQUEST=YES`.
 - Local notebooks use Dask with `Client(processes=False)` where needed.
 - The final report-ready Nairobi figures are stored under `results/outputs/nairobi_deep_learning_dl_only/report_figures/`.
+- The google Ground truth data can be found here - https://research.google/blog/introducing-groundsource-turning-news-reports-into-data-with-gemini/
