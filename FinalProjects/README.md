@@ -1,17 +1,100 @@
 # Nairobi Flood Footprints
 
-This folder contains the final notebooks and outputs for the Nairobi flood footprint project.
+This folder contains the final project deliverables for the Nairobi flood footprint workflow. It includes the core notebooks, the reproducible local environment files, the final deep-learning experiment summaries, and the final presentation deck.
+
+## Folder Contents
+
+### Main notebooks
+
+- `0101_Sentinel1_vv_vh_angle_corrected.ipynb`  
+  Sentinel-1 preprocessing, angle/stripe correction, SAR threshold baselines, ground-truth overlays, and Sentinel-2 optical context.
+
+- `0301_deep_learning_baseline_local.ipynb`  
+  Local debugging notebook for the Sen1Floods11 deep-learning baseline. This was used for quick iteration before full Colab runs.
+
+- `0302_deep_learning_baseline.ipynb`  
+  Main Sen1Floods11 training notebook for the final deep-learning experiments. It contains the training loop, threshold sweep, experiment logging, and model-selection workflow.
+
+- `0303_DL_Application_on_Nairobi.ipynb`  
+  Final Nairobi transfer notebook. It loads the selected Sen1Floods11 checkpoint, applies the model to Nairobi Sentinel-1 before/after imagery, evaluates DL-only outputs against the available Nairobi references, and exports report-ready figures.
+
+- `sen1floods11_rf_base.ipynb`  
+  Random forest baseline on Sen1Floods11.
+
+- `sen1floods11_rf_comparison.ipynb`  
+  Comparison notebook for traditional ML feature configurations.
+
+### Environment and project documentation
+
+- `README.md`  
+  Project overview and final workflow summary.
+
+- `LOCAL_ENVIRONMENT.md`  
+  Extra notes for local setup and notebook execution.
+
+- `environment.yml`  
+  Recommended conda environment for local execution.
+
+- `requirements.txt`  
+  Pip-based fallback environment.
+
+### Deep-learning experiment summaries
+
+- `deep_learning_experiment_summary.csv`
+- `deep_learning_threshold_sweep.csv`
+- `dl_experiment_report_table.csv`
+- `dl_experiment_report_table.md`
+
+These files summarize the final Sen1Floods11 deep-learning experiments and the threshold-sweep results used to choose the final transfer model.
+
+### Final presentation
+
+- `Final presentation.pdf`  
+  Final project presentation deck for the Nairobi flood footprint workflow.
+
+## Reproducible Environment
+
+The notebooks were developed primarily in Google Colab, but this folder also includes a local environment that can be used directly.
+
+### Recommended: conda
+
+```bash
+conda env create -f FinalProjects/environment.yml
+conda activate musa650-final
+python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
+jupyter lab
+```
+
+### Alternative: existing `.venv`
+
+```bash
+source FinalProjects/.venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r FinalProjects/requirements.txt
+jupyter lab
+```
+
+For more detail, see `LOCAL_ENVIRONMENT.md`.
 
 ## Final Workflow
 
-- `deep_learning_baseline.ipynb`: Sen1Floods11 deep-learning training and experiment logging.
-- `dl_experiment_report_table.csv`: report-ready summary of the trained deep-learning experiments.
-- `nairobi_dl_only_diagnostics.ipynb`: final Nairobi transfer notebook. It loads the experiment table, explains the selected model, applies the selected Sen1Floods11 checkpoint to Nairobi Sentinel-1 before/after imagery, evaluates DL-only outputs against the available ground-truth references, and exports separate report figures.
-- `Nairobi Flood FootPrint_angle_corrected.ipynb`: SAR thresholding, ground-truth overlays, and Sentinel-2 optical context. Deep-learning diagnostics have been moved to `nairobi_dl_only_diagnostics.ipynb`.
+The project was organized into four stages:
 
-## Deep Learning Experiment Results
+1. **Sentinel-1 preprocessing and SAR flood baselines**  
+   We prepared Nairobi Sentinel-1 VV/VH imagery, applied angle-aware correction, and built rule-based flood baselines from before/after change detection.
 
-All deep-learning experiments were trained on Sen1Floods11 Sentinel-1 VV/VH chips and evaluated with a global validation threshold sweep. The global threshold metric is the preferred readout because it computes one confusion matrix over all valid validation pixels, which is better aligned with transfer inference than batch-averaged argmax metrics.
+2. **Sen1Floods11 deep-learning model development**  
+   We trained multiple segmentation models on Sen1Floods11 using Sentinel-1 VV/VH inputs. The main improvements were weighted cross entropy, better normalization, threshold calibration, and architecture tuning.
+
+3. **Model selection from validation experiments**  
+   We compared several U-Net-style experiments using a global validation threshold sweep. This gave a report-ready ranking and a final selected checkpoint.
+
+4. **Application to Nairobi**  
+   We transferred the selected model to Nairobi Sentinel-1 data, generated before-water probability, after-water probability, a DL flood proxy, and overlay diagnostics against available flood references.
+
+## Final Deep-Learning Results
+
+All deep-learning experiments were trained on Sen1Floods11 Sentinel-1 VV/VH chips and evaluated with a global validation threshold sweep. This global threshold readout was used as the main model-selection criterion because it computes a single confusion matrix over all valid validation pixels and directly supports transfer threshold selection.
 
 | Rank | Experiment | Model | Loss | LR | Best epoch | Threshold | Water IoU | Water F1 | Precision | Recall | Pred. water frac | Collapse |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -22,46 +105,44 @@ All deep-learning experiments were trained on Sen1Floods11 Sentinel-1 VV/VH chip
 | 5 | Exp 4: Small U-Net, auto WCE + Dice 0.25 | Small U-Net | Weighted CE + Dice 0.25 | 1e-3 | 20 | 0.550 | 0.513 | 0.678 | 0.724 | 0.637 | 0.097 | No |
 | 6 | Exp 3: Small U-Net, auto WCE | Small U-Net | Weighted CE | 5e-4 | 20 | 0.600 | 0.491 | 0.659 | 0.773 | 0.573 | 0.082 | No |
 
-The final selected model is **Exp 6**. It achieved the strongest validation performance (`Water IoU = 0.548`, `Water F1 = 0.708`) while keeping the predicted water fraction (`0.106`) close to the true validation water fraction (`0.110`). This indicates that the model avoided the earlier all-background collapse mode and produced a better-calibrated water probability surface for transfer to Nairobi.
+### Selected final model
 
-## Local Environment
+The final selected checkpoint is:
 
-The notebooks were originally run in Google Colab. For local work, the recommended setup is the conda environment:
-
-```bash
-conda env create -f environment.yml
-conda activate musa650-final
-python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
-jupyter lab
+```text
+outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt
 ```
 
-The existing local virtual environment can also be used when conda is unavailable:
+with:
 
-```bash
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-jupyter lab
+```python
+BEST_WATER_THRESHOLD = 0.45
 ```
 
-See `LOCAL_ENVIRONMENT.md` for more detailed setup notes.
+This model was selected because it achieved the highest validation `Water IoU` and `Water F1` while keeping the predicted water fraction (`0.106`) close to the true validation water fraction (`0.110`). This indicates better calibration and a clear improvement over the earlier collapse-prone background-heavy runs.
 
-## Data
+## Data and Outputs
 
-The notebooks use two Nairobi ground-truth references:
+### Nairobi reference data
+
+The Nairobi evaluation uses two reference sources:
 
 ```text
 data/groundsource__2026.parquet
 unStat_groundTruth/PL_20240501_FloodExtent_Nairobi_Kiambu.shp
 ```
 
-The Sen1Floods11 model checkpoints and experiment outputs are stored under `outputs_DL/`.
-Nairobi DL-only outputs are stored under `outputs/nairobi_deep_learning_dl_only/`.
+### Output folders
+
+- `outputs/nairobi_deep_learning_dl_only/`  
+  Final Nairobi DL-only outputs, summary tables, raster exports, and report-ready figures.
+
+- `outputs_DL/`  
+  Sen1Floods11 experiment outputs and saved model checkpoints.
 
 ## Notes
 
-- Sentinel data is loaded from Element84 Earth Search: `https://earth-search.aws.element84.com/v1`.
-- AWS unsigned reads are enabled by setting `AWS_NO_SIGN_REQUEST=YES`.
-- The notebooks use Dask locally with `Client(processes=False)`.
-- The selected DL checkpoint is `outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt`.
-- The selected Nairobi transfer threshold is `BEST_WATER_THRESHOLD = 0.45`.
+- Sentinel imagery is loaded from Element84 Earth Search: `https://earth-search.aws.element84.com/v1`.
+- AWS unsigned reads are enabled with `AWS_NO_SIGN_REQUEST=YES`.
+- Local notebooks use Dask with `Client(processes=False)` where needed.
+- The final report-ready Nairobi figures are stored under `outputs/nairobi_deep_learning_dl_only/report_figures/`.
