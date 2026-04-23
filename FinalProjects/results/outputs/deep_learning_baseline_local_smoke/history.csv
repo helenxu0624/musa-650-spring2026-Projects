@@ -1,0 +1,2 @@
+epoch,seconds,train_loss,train_accuracy,train_water_iou,train_water_f1,train_true_water_frac,train_pred_water_frac,val_loss,val_accuracy,val_water_iou,val_water_f1,val_true_water_frac,val_pred_water_frac
+1,1.6518809795379639,0.7007423341274261,0.5558315217494965,0.03198203040947157,0.060513056008659666,0.021349295391701162,0.452446386218071,0.7029233276844025,0.6773414611816406,0.0,0.0,0.3226585388183594,0.0
