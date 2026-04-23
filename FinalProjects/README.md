@@ -1,4 +1,4 @@
-# Nairobi Flood Footprints
+# Flood Extent Mapping in Nairobi
 
 This folder contains the final project deliverables for the Nairobi flood footprint workflow. It includes the core notebooks, the reproducible local environment files, the final deep-learning experiment summaries, and the final presentation deck.
 
