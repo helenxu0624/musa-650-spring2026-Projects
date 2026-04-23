@@ -1,4 +1,4 @@
-# Nairobi Flood Footprints
+# Flood Extent Mapping in Nairobi
 
 This folder contains the final project deliverables for the Nairobi flood footprint workflow. It includes the core notebooks, the reproducible local environment files, the final deep-learning experiment summaries, and the final presentation deck.
 
@@ -83,21 +83,6 @@ jupyter lab
 
 For more detail, see `LOCAL_ENVIRONMENT.md`.
 
-## Final Workflow
-
-The project was organized into four stages:
-
-1. **Sentinel-1 preprocessing and SAR flood baselines**  
-   We prepared Nairobi Sentinel-1 VV/VH imagery, applied angle-aware correction, and built rule-based flood baselines from before/after change detection.
-
-2. **Sen1Floods11 deep-learning model development**  
-   We trained multiple segmentation models on Sen1Floods11 using Sentinel-1 VV/VH inputs. The main improvements were weighted cross entropy, better normalization, threshold calibration, and architecture tuning.
-
-3. **Model selection from validation experiments**  
-   We compared several U-Net-style experiments using a global validation threshold sweep. This gave a report-ready ranking and a final selected checkpoint.
-
-4. **Application to Nairobi**  
-   We transferred the selected model to Nairobi Sentinel-1 data, generated before-water probability, after-water probability, a DL flood proxy, and overlay diagnostics against available flood references.
 
 ## Final Deep-Learning Results
 
