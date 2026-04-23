@@ -45,6 +45,34 @@ These files summarize the final Sen1Floods11 deep-learning experiments and the t
 - `results/Final_presentation.pdf`  
   Final project presentation deck for the Nairobi flood footprint workflow.
 
+## Analysis and Simple write up
+### Research purpose
+The main goal of this project was to compare multiple flood-mapping strategies for Nairobi under a consistent workflow and to understand how prediction quality changes as the modeling approach becomes more sophisticated. In practice, this meant comparing:
+
+- rule-based SAR change detection,
+- traditional machine-learning models trained on Sen1Floods11,
+- and deep-learning segmentation models trained on the same Sen1Floods11 task and then transferred to Nairobi.
+
+The central question was not only which method gives the strongest validation accuracy, but also which method transfers most usefully to a real Nairobi flood event setting.
+
+### Stage 1: Sentinel-1 preprocessing and SAR baselines
+
+In Stage 1, we focused on Sentinel-1 VV/VH preprocessing, angle-aware correction, and simple threshold-based flood masks derived from before/after SAR change. This stage was important because it established an interpretable baseline and showed what could be achieved without any learned model.
+
+The main result of Stage 1 is that SAR change detection can identify broad flood-related patterns quickly and transparently, but it is sensitive to threshold choice, urban backscatter noise, and local scene conditions. In other words, Stage 1 gives a strong baseline for interpretation, but not the most stable final predictor.
+
+### Stage 2: Traditional machine-learning comparison
+
+In Stage 2, we compared traditional supervised models on Sen1Floods11 using SAR-only, optical-only, and fused feature sets. This stage tested whether feature engineering and classical ML could improve on simple thresholding while remaining easier to interpret than deep learning.
+
+The main takeaway from Stage 2 is that learned models generally outperform rule-based thresholds, and combining richer feature sets improves separability between flooded and non-flooded pixels. SAR remains valuable because it is cloud-robust, while optical features can add discrimination when surface-water signatures are visible. This stage therefore showed the value of supervised learning and multimodal features, even before moving to deep learning.
+
+### Stage 3: Deep-learning model selection and Nairobi transfer
+
+In Stage 3, we trained several U-Net-style flood segmentation models on Sen1Floods11 and selected the final model using a global validation threshold sweep. The best model was the residual attention U-Net with auto weighted cross entropy plus Dice loss, which achieved the top validation results among all tested deep-learning runs.
+
+The main result of Stage 3 is that deep learning produced the strongest validation accuracy in the project. The selected model reached `Water IoU = 0.548` and `Water F1 = 0.708`, while also keeping predicted water coverage close to the true validation water fraction. When transferred to Nairobi, the DL-only outputs produced useful before/after water probability maps and a coherent flood proxy. At the same time, the Nairobi diagnostics showed that transfer remains challenging: a model that performs well on Sen1Floods11 does not automatically become a perfect flood map in a new city. This is why the final DL outputs are most useful as calibrated evidence and report-ready diagnostics rather than as a perfect standalone ground-truth substitute.
+
 ## Final Deep-Learning Results
 
 All deep-learning experiments were trained on Sen1Floods11 Sentinel-1 VV/VH chips and evaluated with a global validation threshold sweep. This global threshold readout was used as the main model-selection criterion because it computes a single confusion matrix over all valid validation pixels and directly supports transfer threshold selection.
