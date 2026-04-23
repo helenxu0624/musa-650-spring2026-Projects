@@ -31,20 +31,6 @@ The folder is organized into four main groups:
 - `notebooks/sen1floods11_rf_comparison.ipynb`  
   Comparison notebook for traditional ML feature configurations.
 
-### Environment and project documentation
-
-- `README.md`  
-  Project overview and final workflow summary.
-
-- `LOCAL_ENVIRONMENT.md`  
-  Extra notes for local setup and notebook execution.
-
-- `environment.yml`  
-  Recommended conda environment for local execution.
-
-- `requirements.txt`  
-  Pip-based fallback environment.
-
 ### Deep-learning experiment summaries (`results/experiments/`)
 
 - `results/experiments/deep_learning_experiment_summary.csv`
@@ -58,31 +44,6 @@ These files summarize the final Sen1Floods11 deep-learning experiments and the t
 
 - `results/Final_presentation.pdf`  
   Final project presentation deck for the Nairobi flood footprint workflow.
-
-## Reproducible Environment
-
-The notebooks were developed primarily in Google Colab, but this folder also includes a local environment that can be used directly.
-
-### Recommended: conda
-
-```bash
-conda env create -f FinalProjects/environment.yml
-conda activate musa650-final
-python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
-jupyter lab
-```
-
-### Alternative: existing `.venv`
-
-```bash
-source FinalProjects/.venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r FinalProjects/requirements.txt
-jupyter lab
-```
-
-For more detail, see `LOCAL_ENVIRONMENT.md`.
-
 
 ## Final Deep-Learning Results
 
@@ -131,6 +92,47 @@ unStat_groundTruth/PL_20240501_FloodExtent_Nairobi_Kiambu.shp
 
 - `results/outputs_DL/`  
   Sen1Floods11 experiment outputs and saved model checkpoints.
+
+
+## Reproducible Environment
+
+The notebooks were developed primarily in Google Colab, but this folder also includes a local environment that can be used directly.
+
+### Recommended: conda
+
+```bash
+conda env create -f FinalProjects/environment.yml
+conda activate musa650-final
+python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
+jupyter lab
+```
+
+### Alternative: existing `.venv`
+
+```bash
+source FinalProjects/.venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r FinalProjects/requirements.txt
+jupyter lab
+```
+
+For more detail, see `LOCAL_ENVIRONMENT.md`.
+
+### Environment and project documentation
+
+- `README.md`  
+  Project overview and final workflow summary.
+
+- `LOCAL_ENVIRONMENT.md`  
+  Extra notes for local setup and notebook execution.
+
+- `environment.yml`  
+  Recommended conda environment for local execution.
+
+- `requirements.txt`  
+  Pip-based fallback environment.
+
+
 
 ## Notes
 
