@@ -28,7 +28,7 @@ python -m ipykernel install --user --name musa650-final --display-name "Python (
 This is lighter, but geospatial packages may be more fragile on macOS.
 
 ```bash
-source .venv/bin/activate
+source FinalProjects/.venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r FinalProjects/requirements.txt
 python -m ipykernel install --user --name musa650-final-venv --display-name "Python (musa650-final-venv)"
@@ -37,7 +37,7 @@ jupyter lab
 
 ## Notebook Order For Nairobi DL-Only Transfer
 
-Use `nairobi_dl_only_diagnostics.ipynb` for the final deep-learning transfer workflow.
+Use `notebooks/0303_DL_Application_on_Nairobi.ipynb` for the final deep-learning transfer workflow.
 Run the notebook from top to bottom:
 
 1. Environment, configuration, and model-selection table.
@@ -49,7 +49,7 @@ Run the notebook from top to bottom:
 The current default deep-learning checkpoint is:
 
 ```text
-FinalProjects/outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt
+FinalProjects/results/outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt
 ```
 
 with:
@@ -62,5 +62,5 @@ BEST_WATER_THRESHOLD = 0.45
 
 - Local PyTorch will run on CPU or Apple Silicon MPS when available. Colab should
   keep using its preinstalled CUDA PyTorch.
-- RAPIDS/cuML from `sen1floods11_rf_comparison.ipynb` is optional and Colab-only
+- RAPIDS/cuML from `notebooks/sen1floods11_rf_comparison.ipynb` is optional and Colab-only
   for this project. Locally, the RF code falls back to scikit-learn.

@@ -4,24 +4,31 @@ This folder contains the final project deliverables for the Nairobi flood footpr
 
 ## Folder Contents
 
-### Main notebooks
+The folder is organized into four main groups:
 
-- `0101_Sentinel1_vv_vh_angle_corrected.ipynb`  
+- `notebooks/` for all project notebooks
+- `results/` for experiment tables, model outputs, figures, and the final presentation
+- `data/` for local data inputs
+- `unStat_groundTruth/` for the UNStats shapefile reference
+
+### Main notebooks (`notebooks/`)
+
+- `notebooks/0101_Sentinel1_vv_vh_angle_corrected.ipynb`  
   Sentinel-1 preprocessing, angle/stripe correction, SAR threshold baselines, ground-truth overlays, and Sentinel-2 optical context.
 
-- `0301_deep_learning_baseline_local.ipynb`  
+- `notebooks/0301_deep_learning_baseline_local.ipynb`  
   Local debugging notebook for the Sen1Floods11 deep-learning baseline. This was used for quick iteration before full Colab runs.
 
-- `0302_deep_learning_baseline.ipynb`  
+- `notebooks/0302_deep_learning_baseline.ipynb`  
   Main Sen1Floods11 training notebook for the final deep-learning experiments. It contains the training loop, threshold sweep, experiment logging, and model-selection workflow.
 
-- `0303_DL_Application_on_Nairobi.ipynb`  
+- `notebooks/0303_DL_Application_on_Nairobi.ipynb`  
   Final Nairobi transfer notebook. It loads the selected Sen1Floods11 checkpoint, applies the model to Nairobi Sentinel-1 before/after imagery, evaluates DL-only outputs against the available Nairobi references, and exports report-ready figures.
 
-- `sen1floods11_rf_base.ipynb`  
+- `notebooks/sen1floods11_rf_base.ipynb`  
   Random forest baseline on Sen1Floods11.
 
-- `sen1floods11_rf_comparison.ipynb`  
+- `notebooks/sen1floods11_rf_comparison.ipynb`  
   Comparison notebook for traditional ML feature configurations.
 
 ### Environment and project documentation
@@ -38,18 +45,18 @@ This folder contains the final project deliverables for the Nairobi flood footpr
 - `requirements.txt`  
   Pip-based fallback environment.
 
-### Deep-learning experiment summaries
+### Deep-learning experiment summaries (`results/experiments/`)
 
-- `deep_learning_experiment_summary.csv`
-- `deep_learning_threshold_sweep.csv`
-- `dl_experiment_report_table.csv`
-- `dl_experiment_report_table.md`
+- `results/experiments/deep_learning_experiment_summary.csv`
+- `results/experiments/deep_learning_threshold_sweep.csv`
+- `results/experiments/dl_experiment_report_table.csv`
+- `results/experiments/dl_experiment_report_table.md`
 
 These files summarize the final Sen1Floods11 deep-learning experiments and the threshold-sweep results used to choose the final transfer model.
 
 ### Final presentation
 
-- `Final presentation.pdf`  
+- `results/Final_presentation.pdf`  
   Final project presentation deck for the Nairobi flood footprint workflow.
 
 ## Reproducible Environment
@@ -110,7 +117,7 @@ All deep-learning experiments were trained on Sen1Floods11 Sentinel-1 VV/VH chip
 The final selected checkpoint is:
 
 ```text
-outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt
+results/outputs_DL/exp06_resattn_auto_wce_dice025_lr8e-4_base32_e80_pat20/sen1floods11_small_unet_best.pt
 ```
 
 with:
@@ -134,10 +141,10 @@ unStat_groundTruth/PL_20240501_FloodExtent_Nairobi_Kiambu.shp
 
 ### Output folders
 
-- `outputs/nairobi_deep_learning_dl_only/`  
+- `results/outputs/nairobi_deep_learning_dl_only/`  
   Final Nairobi DL-only outputs, summary tables, raster exports, and report-ready figures.
 
-- `outputs_DL/`  
+- `results/outputs_DL/`  
   Sen1Floods11 experiment outputs and saved model checkpoints.
 
 ## Notes
@@ -145,4 +152,4 @@ unStat_groundTruth/PL_20240501_FloodExtent_Nairobi_Kiambu.shp
 - Sentinel imagery is loaded from Element84 Earth Search: `https://earth-search.aws.element84.com/v1`.
 - AWS unsigned reads are enabled with `AWS_NO_SIGN_REQUEST=YES`.
 - Local notebooks use Dask with `Client(processes=False)` where needed.
-- The final report-ready Nairobi figures are stored under `outputs/nairobi_deep_learning_dl_only/report_figures/`.
+- The final report-ready Nairobi figures are stored under `results/outputs/nairobi_deep_learning_dl_only/report_figures/`.
