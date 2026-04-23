@@ -12,6 +12,7 @@ dependencies:
   - pyarrow
   - scipy
   - matplotlib
+  - seaborn
   - pillow
   - folium
   - mapclassify
@@ -26,6 +27,14 @@ dependencies:
   - odc-stac
   - odc-geo
   - pystac-client
+  - planetary-computer
   - earthengine-api
   - scikit-image
   - scikit-learn
+  - joblib
+  - pip
+  - pip:
+      # CPU/MPS PyTorch for local notebook inference/training.
+      # On Colab, keep using the runtime-provided CUDA PyTorch instead.
+      - torch>=2.2,<2.8
+      - torchvision>=0.17,<0.23

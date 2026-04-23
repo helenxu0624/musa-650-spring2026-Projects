@@ -1,0 +1,3 @@
+experiment,epochs_run,best_epoch,decision_rule,threshold,val_iou_water,val_f1_water,val_accuracy,val_true_water_frac,val_pred_water_frac,notes
+colab_full_weighted_ce_batch_avg_argmax,40,20,argmax / batch-averaged metrics,0.5,0.44140866394123535,0.5688790770806521,0.9263056646222654,0.10845921990340171,0.11273680555219155,Training metric; averages IoU/F1 per batch.
+colab_full_weighted_ce_global_threshold,40,20,softmax water threshold / global confusion,0.5499999999999999,0.5126306781577217,0.6778001868665918,,0.11025550216436386,0.0969480574131012,Recommended validation readout; computes confusion over all valid pixels.
