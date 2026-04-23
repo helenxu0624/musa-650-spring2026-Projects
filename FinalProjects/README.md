@@ -16,10 +16,10 @@ The folder is organized into four main groups:
 - `notebooks/0101_Sentinel1_vv_vh_angle_corrected.ipynb`  
   Sentinel-1 preprocessing, angle/stripe correction, SAR threshold baselines, ground-truth overlays, and Sentinel-2 optical context.
 
-- `notebooks/0201_sen1floods11_rf_base.ipynb`  
+- `notebooks/0201_RF.ipynb`  
   Random forest baseline on Sen1Floods11.
 
-- `notebooks/0202_sen1floods11_rf_comparison.ipynb`  
+- `notebooks/0202_MNDWI_RF_comparisons.ipynb`  
   Comparison notebook for traditional ML feature configurations.
 
 - `notebooks/0301_deep_learning_baseline_local.ipynb`  
