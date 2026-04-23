@@ -16,6 +16,12 @@ The folder is organized into four main groups:
 - `notebooks/0101_Sentinel1_vv_vh_angle_corrected.ipynb`  
   Sentinel-1 preprocessing, angle/stripe correction, SAR threshold baselines, ground-truth overlays, and Sentinel-2 optical context.
 
+- `notebooks/0201_sen1floods11_rf_base.ipynb`  
+  Random forest baseline on Sen1Floods11.
+
+- `notebooks/0202_sen1floods11_rf_comparison.ipynb`  
+  Comparison notebook for traditional ML feature configurations.
+
 - `notebooks/0301_deep_learning_baseline_local.ipynb`  
   Local debugging notebook for the Sen1Floods11 deep-learning baseline. This was used for quick iteration before full Colab runs.
 
@@ -25,11 +31,7 @@ The folder is organized into four main groups:
 - `notebooks/0303_DL_Application_on_Nairobi.ipynb`  
   Final Nairobi transfer notebook. It loads the selected Sen1Floods11 checkpoint, applies the model to Nairobi Sentinel-1 before/after imagery, evaluates DL-only outputs against the available Nairobi references, and exports report-ready figures.
 
-- `notebooks/sen1floods11_rf_base.ipynb`  
-  Random forest baseline on Sen1Floods11.
 
-- `notebooks/sen1floods11_rf_comparison.ipynb`  
-  Comparison notebook for traditional ML feature configurations.
 
 ### Deep-learning experiment summaries (`results/experiments/`)
 
