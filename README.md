@@ -1,12 +1,4 @@
 ## Projects
-### 0. Repository Structure
-musa-650-spring2026-Projects/
-├── EuroStats/
-│   └── EuroSAT land-cover classification notebooks
-│
-└── FinalProjects/
-    └── Nairobi flood extent mapping project
-
 ### 1. EuroStats / EuroSAT Classification
 
 The `EuroStats/` folder contains notebooks for land-cover classification using the EuroSAT dataset.  
