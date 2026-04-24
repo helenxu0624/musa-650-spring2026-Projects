@@ -1,7 +1,5 @@
 ## Projects
-## Repository Structure
-
-```text
+### 0. Repository Structure
 musa-650-spring2026-Projects/
 ├── EuroStats/
 │   └── EuroSAT land-cover classification notebooks
