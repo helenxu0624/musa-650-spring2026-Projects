@@ -32,20 +32,6 @@ The folder is organized into four main groups:
   Final Nairobi transfer notebook. It loads the selected Sen1Floods11 checkpoint, applies the model to Nairobi Sentinel-1 before/after imagery, evaluates DL-only outputs against the available Nairobi references, and exports report-ready figures.
 
 
-### Environment and project documentation
-
-- `README.md`  
-  Project overview and final workflow summary.
-
-- `LOCAL_ENVIRONMENT.md`  
-  Extra notes for local setup and notebook execution.
-
-- `environment.yml`  
-  Recommended conda environment for local execution.
-
-- `requirements.txt`  
-  Pip-based fallback environment.
-
 ### Deep-learning experiment summaries (`results/experiments/`)
 
 - `results/experiments/deep_learning_experiment_summary.csv`
@@ -60,30 +46,33 @@ These files summarize the final Sen1Floods11 deep-learning experiments and the t
 - `results/Final_presentation.pdf`  
   Final project presentation deck for the Nairobi flood footprint workflow.
 
-## Reproducible Environment
+## Analysis and Simple write up
+### Research purpose
+The main goal of this project was to compare multiple flood-mapping strategies for Nairobi under a consistent workflow and to understand how prediction quality changes as the modeling approach becomes more sophisticated. In practice, this meant comparing:
 
-The notebooks were developed primarily in Google Colab, but this folder also includes a local environment that can be used directly.
+- rule-based SAR change detection,
+- traditional machine-learning models trained on Sen1Floods11,
+- and deep-learning segmentation models trained on the same Sen1Floods11 task and then transferred to Nairobi.
 
-### Recommended: conda
+The central question was not only which method gives the strongest validation accuracy, but also which method transfers most usefully to a real Nairobi flood event setting.
 
-```bash
-conda env create -f FinalProjects/environment.yml
-conda activate musa650-final
-python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
-jupyter lab
-```
+### Stage 1: Sentinel-1 preprocessing and SAR baselines
 
-### Alternative: existing `.venv`
+In Stage 1, we focused on Sentinel-1 VV/VH preprocessing, angle-aware correction, and simple threshold-based flood masks derived from before/after SAR change. This stage was important because it established an interpretable baseline and showed what could be achieved without any learned model.
 
-```bash
-source FinalProjects/.venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r FinalProjects/requirements.txt
-jupyter lab
-```
+The main result of Stage 1 is that SAR change detection can identify broad flood-related patterns quickly and transparently, but it is sensitive to threshold choice, urban backscatter noise, and local scene conditions. In other words, Stage 1 gives a strong baseline for interpretation, but not the most stable final predictor.
 
-For more detail, see `LOCAL_ENVIRONMENT.md`.
+### Stage 2: Traditional machine-learning comparison
 
+In Stage 2, we compared traditional supervised models on Sen1Floods11 using SAR-only, optical-only, and fused feature sets. This stage tested whether feature engineering and classical ML could improve on simple thresholding while remaining easier to interpret than deep learning.
+
+The main takeaway from Stage 2 is that learned models generally outperform rule-based thresholds, and combining richer feature sets improves separability between flooded and non-flooded pixels. SAR remains valuable because it is cloud-robust, while optical features can add discrimination when surface-water signatures are visible. This stage therefore showed the value of supervised learning and multimodal features, even before moving to deep learning.
+
+### Stage 3: Deep-learning model selection and Nairobi transfer
+
+In Stage 3, we trained several U-Net-style flood segmentation models on Sen1Floods11 and selected the final model using a global validation threshold sweep. The best model was the residual attention U-Net with auto weighted cross entropy plus Dice loss, which achieved the top validation results among all tested deep-learning runs.
+
+The main result of Stage 3 is that deep learning produced the strongest validation accuracy in the project. The selected model reached `Water IoU = 0.548` and `Water F1 = 0.708`, while also keeping predicted water coverage close to the true validation water fraction. When transferred to Nairobi, the DL-only outputs produced useful before/after water probability maps and a coherent flood proxy. At the same time, the Nairobi diagnostics showed that transfer remains challenging: a model that performs well on Sen1Floods11 does not automatically become a perfect flood map in a new city. This is why the final DL outputs are most useful as calibrated evidence and report-ready diagnostics rather than as a perfect standalone ground-truth substitute.
 
 ## Final Deep-Learning Results
 
@@ -133,9 +122,51 @@ unStat_groundTruth/PL_20240501_FloodExtent_Nairobi_Kiambu.shp
 - `results/outputs_DL/`  
   Sen1Floods11 experiment outputs and saved model checkpoints.
 
+
+## Reproducible Environment
+
+The notebooks were developed primarily in Google Colab, but this folder also includes a local environment that can be used directly.
+
+### Recommended: conda
+
+```bash
+conda env create -f FinalProjects/environment.yml
+conda activate musa650-final
+python -m ipykernel install --user --name musa650-final --display-name "Python (musa650-final)"
+jupyter lab
+```
+
+### Alternative: existing `.venv`
+
+```bash
+source FinalProjects/.venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r FinalProjects/requirements.txt
+jupyter lab
+```
+
+For more detail, see `LOCAL_ENVIRONMENT.md`.
+
+### Environment and project documentation
+
+- `README.md`  
+  Project overview and final workflow summary.
+
+- `LOCAL_ENVIRONMENT.md`  
+  Extra notes for local setup and notebook execution.
+
+- `environment.yml`  
+  Recommended conda environment for local execution.
+
+- `requirements.txt`  
+  Pip-based fallback environment.
+
+
+
 ## Notes
 
 - Sentinel imagery is loaded from Element84 Earth Search: `https://earth-search.aws.element84.com/v1`.
 - AWS unsigned reads are enabled with `AWS_NO_SIGN_REQUEST=YES`.
 - Local notebooks use Dask with `Client(processes=False)` where needed.
 - The final report-ready Nairobi figures are stored under `results/outputs/nairobi_deep_learning_dl_only/report_figures/`.
+- The google Ground truth data can be found here - https://research.google/blog/introducing-groundsource-turning-news-reports-into-data-with-gemini/
