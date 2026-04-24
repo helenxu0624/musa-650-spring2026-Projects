@@ -46,7 +46,7 @@ These files summarize the final Sen1Floods11 deep-learning experiments and the t
 - `results/Final_presentation.pdf`  
   Final project presentation deck for the Nairobi flood footprint workflow.
 
-## Analysis and Simple write up
+## Analysis
 ### Research purpose
 The main goal of this project was to compare multiple flood-mapping strategies for Nairobi under a consistent workflow and to understand how prediction quality changes as the modeling approach becomes more sophisticated. In practice, this meant comparing:
 
